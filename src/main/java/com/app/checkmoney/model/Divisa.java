@@ -24,7 +24,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "divisa", schema = "catalogo")
-@ApiModel("Modelo de Divisa")
+@ApiModel("Divisa")
 public class Divisa {
 	
 	@Id
