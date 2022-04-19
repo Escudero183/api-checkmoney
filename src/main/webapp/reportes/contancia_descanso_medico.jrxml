@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ficha_vacacion" language="groovy" pageWidth="595" pageHeight="750" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1704cb46-b252-4e6e-8310-03df69c7df74">
+	<property name="ireport.zoom" value="1.3310000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="cabecera" forecolor="#000000" backcolor="#000000" fill="Solid">
+		<box>
+			<pen lineStyle="Double"/>
+			<topPen lineWidth="0.5" lineStyle="Solid"/>
+			<leftPen lineWidth="0.5" lineStyle="Solid"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="interlineado">
+		<box>
+			<bottomPen lineWidth="0.25" lineStyle="Dashed" lineColor="#666666"/>
+		</box>
+	</style>
+	<style name="resumen">
+		<box>
+			<bottomPen lineWidth="0.5" lineColor="#333333"/>
+			<rightPen lineWidth="0.5" lineColor="#333333"/>
+		</box>
+	</style>
+	<style name="linea_abajo_doble">
+		<box>
+			<bottomPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="linea_abajo" style="linea_abajo_doble">
+		<box>
+			<bottomPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<subDataset name="DataConvenio" whenResourceMissingType="Error" uuid="9022723f-4959-45a9-b122-08c440ffa6bf">
+		<parameter name="periodo_p" class="java.lang.String"/>
+		<parameter name="indice_p" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="convenio" class="java.lang.Object"/>
+		<field name="id" class="java.lang.String"/>
+		<field name="dias" class="java.lang.String"/>
+		<field name="docuTitulo" class="java.lang.String"/>
+		<field name="usado" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="DataDetalle" uuid="4376570a-3f31-4a4f-afd2-e40d446e10a1">
+		<parameter name="periodo_p" class="java.lang.String"/>
+		<parameter name="indice_p" class="java.lang.Integer"/>
+		<field name="idCV" class="java.lang.String"/>
+		<field name="fechaInicio" class="java.util.Date"/>
+		<field name="fechaFinal" class="java.util.Date"/>
+		<field name="fechaInterrup" class="java.util.Date"/>
+		<field name="nroDias" class="java.lang.Integer"/>
+		<field name="estado" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="dni" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="dependencia" class="java.lang.String"/>
+	<parameter name="nombreCompleto" class="java.lang.String"/>
+	<parameter name="diagnostico" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.String"/>
+	<parameter name="dias" class="java.lang.String"/>
+	<parameter name="edad" class="java.lang.String"/>
+	<parameter name="LOGO" class="java.lang.String"/>
+	<parameter name="personal" class="java.lang.String"/>
+	<parameter name="FIRMA" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="anio" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.String"/>
+	<field name="NroDiasRest" class="java.lang.Integer"/>
+	<field name="NroDiasUsa" class="java.lang.Integer"/>
+	<field name="NroDias" class="java.lang.Integer"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="listConvenio" class="java.util.List"/>
+	<field name="listDetalle" class="java.util.List"/>
+	<field name="tratamiento" class="java.lang.String"/>
+	<field name="idPV" class="java.lang.String"/>
+	<field name="field1" class="java.lang.String"/>
+	<variable name="indice" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{idPV}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement style="resumen" x="115" y="12" width="318" height="23" forecolor="#000000" uuid="10960bf6-0fba-40f6-adc3-65e68e83c6b6"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+					<topPen lineColor="#FFFFFF"/>
+					<leftPen lineColor="#FFFFFF"/>
+					<bottomPen lineColor="#FFFFFF"/>
+					<rightPen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONSTANCIA DE DESCANSO MÉDICO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="102" height="52" uuid="52c9f589-74b8-4017-8ee6-9d28ee22d00a"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="148" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="79" width="126" height="15" uuid="c85985a2-8c81-40fc-8820-9f09de408fc4"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[enfermo con el Diagnóstico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="92" width="348" height="20" uuid="f6146630-4b94-4e7a-9833-2118f1263af0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[con su respectivo tratamiento, por el motivo se le da descanso por espacio de.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="43" width="309" height="20" uuid="cd0e4877-b462-439e-ba62-a7b77acf9ca2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[del Grupo Palmas, quien consta, suscribe y certifica,  que el paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="125" width="100" height="20" uuid="85fc07b3-9af1-4344-bed1-8a5674e1bdad"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[TRATAMIENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="23" width="97" height="20" uuid="2485f4c3-a795-4022-9d97-3221aaa1d742"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[ El Personal de Salud]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="interlineado" x="311" y="40" width="241" height="20" uuid="749b7a4b-d1c4-4a06-875d-ac50e374af9d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{nombreCompleto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" x="177" y="58" width="50" height="20" uuid="d2b55f5a-4de4-4fb1-855d-46afac41b5e8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dni}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement style="interlineado" stretchType="RelativeToBandHeight" x="126" y="77" width="426" height="15" uuid="92da0562-2b35-410d-88df-b3037d8c5115"/>
+				<textElement verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{diagnostico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" x="356" y="58" width="196" height="18" uuid="31d183c0-bac8-417c-9e25-51501e25dcfd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" x="352" y="91" width="38" height="17" uuid="dfd5da21-f5cd-4e44-8fcf-4a2cc379560a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" x="21" y="58" width="42" height="18" uuid="0e2f8392-2ad9-4709-819d-a99e096a0022"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{edad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" mode="Transparent" x="99" y="20" width="453" height="20" uuid="7e882f11-80d5-4b21-a28e-9f8c0095f62c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isUnderline="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{personal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="391" y="92" width="161" height="20" uuid="817837b7-835e-41aa-a6f9-c9103125f766"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Día(s)  a partir de la fecha.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="61" width="19" height="20" uuid="9d84aca1-358c-4d2d-b320-b0245dd416fd"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="61" width="114" height="20" uuid="94e4e8ae-1787-4d0c-b0a0-8e32652aff36"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[años de edad con DNI N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="61" width="130" height="20" uuid="80e459e8-3a3d-4ef2-8b63-7aabfc0ad50c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[laborando en el campamento]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="interlineado" x="375" y="0" width="43" height="20" uuid="09d15db5-51e5-40c2-a46d-3bb6534e6917"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="418" y="3" width="18" height="18" uuid="344ad029-0925-47e7-a853-20a723be1599"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="3" width="78" height="20" uuid="0934ce63-33b3-4388-8c7f-8b2ebbeca031"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Pampa Hermosa,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="3" width="18" height="18" uuid="dfdc9f72-4bfd-4425-8ef6-433238575e3e"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[del]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="interlineado" x="498" y="0" width="53" height="20" uuid="05b6d686-6e70-4759-821d-79fc3af3faca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="interlineado" x="433" y="0" width="47" height="20" uuid="d695eae3-e61d-4bc3-9d1f-38c1696ffc2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement style="interlineado" x="2" y="0" width="549" height="13" uuid="26076e56-a363-4ae3-b5bf-1b54fa2e4e08"/>
+				<textFieldExpression><![CDATA[$F{tratamiento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20">
+			<line>
+				<reportElement x="9" y="3" width="534" height="1" uuid="f1c37b95-3162-4841-bc55-d14c59b13329"/>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="363" y="4" width="101" height="12" uuid="56e410f4-6abe-45f6-9d76-c0ae15d9477d"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="525" y="4" width="28" height="12" uuid="4241583a-4d4f-47db-bdf6-ee411136a5c5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="4" width="61" height="12" uuid="e50171fd-0345-4748-991e-c1c536a3f640"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="4" width="354" height="12" uuid="39571a32-7189-44fa-8f36-36e61eccd3f3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Grupo Pamas]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="150">
+			<staticText>
+				<reportElement x="348" y="96" width="206" height="20" uuid="e55f46c9-7483-4a4d-973c-42aa59a82853"/>
+				<text><![CDATA[_________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="116" width="216" height="20" uuid="477394cf-1d1b-4e3c-8da9-901e6492aa17"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top"/>
+				<text><![CDATA[                      Firma del Personal de Salud]]></text>
+			</staticText>
+			<image>
+				<reportElement x="415" y="21" width="128" height="75" uuid="6671cad3-d35b-4156-a4a1-438261e27c8d"/>
+				<imageExpression><![CDATA[$P{FIRMA}]]></imageExpression>
+			</image>
+		</band>
+	</summary>
+</jasperReport>
