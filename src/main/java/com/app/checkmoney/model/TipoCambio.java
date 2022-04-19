@@ -34,11 +34,23 @@ public class TipoCambio {
 	
 	private Date fecha;
 	
+	private String descripcion;
+	
 	private BigDecimal tasaCambio;
 	
 	private String formula;
 	
-	private Boolean estado;
+	private Boolean vigente;
+	
+	private Boolean estado;		
+	
+	@ManyToOne
+	@JoinColumn(name = "id_divisa_origen")
+	private Divisa divisaOrigen;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_divisa_destino")
+	private Divisa divisaDestino;
 	
 	@Column(name = "created_at")
 	private Date crAt;
@@ -57,13 +69,5 @@ public class TipoCambio {
 	
 	@Column(name = "user_id_delete")
 	private Integer userDt;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_divisa_origen")
-	private Divisa divisaOrigen;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_divisa_destino")
-	private Divisa divisaDestino;
 
 }

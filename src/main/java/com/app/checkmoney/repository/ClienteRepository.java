@@ -29,9 +29,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	
 	@Query("select c from Cliente c Where c.estado = true and (lower(c.razonSocial) like :query or lower(c.nombre) like :query or lower(c.apellidoPaterno) like :query or lower(c.apellidoMaterno) like :query or lower(c.nroDocumento) like :query)")
 	public List<Cliente> findAll(String query, Sort sort);
-	
-	
-	@Query("select count(c) from Cliente c Where c.estado = true")
-	public Integer getTotal();
 
 }

@@ -95,9 +95,5 @@ public class ClienteService {
 		result.put("sizeRows", limit);
 		return result;
 	}
-	
-	public Integer getTotal() {
-		return clienteRepository.getTotal();
-	}
 
 }
