@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -22,6 +24,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "modulo", schema = "seguridad")
+@ApiModel("Modulo")
 public class Modulo {
 	
 	@Id
@@ -30,6 +33,7 @@ public class Modulo {
 	@GeneratedValue(generator = "modulo_generator_seq", strategy = GenerationType.SEQUENCE)
 	private Integer idModulo;
 	
+	@ApiModelProperty(value = "Nombre del Módulo")
 	private String nombre;
 	
 	private String descripcion;

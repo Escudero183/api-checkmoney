@@ -4,7 +4,7 @@ package com.app.checkmoney.config.security.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("Modelo de autentificación")
+@ApiModel("Autentificación")
 public final class JwtAuthenticationRequest {
 
 	@ApiModelProperty(value = "representa el nickname del usuario por defecto es el correo", required = true)

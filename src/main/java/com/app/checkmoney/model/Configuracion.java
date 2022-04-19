@@ -7,11 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "configuracion", schema = "seguridad")
+@ApiModel("Configuracion")
 public class Configuracion {
 	
 	@Id
@@ -19,6 +22,7 @@ public class Configuracion {
 	@GeneratedValue(generator = "configuracion_generator_seq", strategy = GenerationType.SEQUENCE)
 	private Integer idConfiguracion;
 	
+	@ApiModelProperty(value = "Llave de la configuracion")
 	private String llave;
 	
 	private String valor;

@@ -3,6 +3,7 @@
  */
 package com.app.checkmoney.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -24,42 +24,34 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "cliente", schema = "proceso")
-public class Cliente {
+@Table(name = "transaccion", schema = "proceso")
+public class Transaccion {
 	
 	@Id
-	@SequenceGenerator(name = "cliente_generator_seq", sequenceName = "proceso.cliente_id_cliente_seq", allocationSize = 1)
-	@GeneratedValue(generator = "cliente_generator_seq", strategy = GenerationType.SEQUENCE)
-	private Integer idCliente;
+	@Column(name = "id_transaccion")
+	@SequenceGenerator(name = "transaccion_generator_seq", sequenceName = "proceso.transaccion_id_transaccion_seq", allocationSize = 1)
+	@GeneratedValue(generator = "transaccion_generator_seq", strategy = GenerationType.SEQUENCE)
+	private Integer idTransaccion;
 	
-	private String nroDocumento;
+	private Date fechaOperacion;
 	
-	private String nombre;
+	private BigDecimal montoOrigen;
 	
-	private String apellidoPaterno;
+	private BigDecimal montoDestino;
 	
-	private String apellidoMaterno;
+	private BigDecimal tasaCambio;
 	
-	private String razonSocial;	
-	
-	private String direccion;
-	
-	private String celular;
-	
-	private String correo;
+	private String formula;
 	
 	private Boolean estado;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_tipo_documento")
-	private TipoDocumento tipoDocumento;
+	@JoinColumn(name = "id_cliente")
+	private Cliente cliente;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_ubigeo")
-	private Ubigeo ubigeo;
-	
-	@Transient
-	private IUbigeo ubigeoAll;
+	@JoinColumn(name = "id_tipo_cambio")
+	private TipoCambio tipoCambio;
 	
 	@Column(name = "created_at")
 	private Date crAt;
