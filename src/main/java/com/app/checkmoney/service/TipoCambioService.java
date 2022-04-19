@@ -4,6 +4,7 @@
 package com.app.checkmoney.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,6 +88,10 @@ public class TipoCambioService {
 		result.put("page", page);
 		result.put("sizeRows", limit);
 		return result;
+	}
+	
+	public List<TipoCambio> findVigentes(Date fecha, Integer idDivisaOrigen, Integer idDivisaDestino) {
+		return (List<TipoCambio>) tipoCambioRepository.findVigentes(fecha, idDivisaOrigen, idDivisaDestino);
 	}
 
 }

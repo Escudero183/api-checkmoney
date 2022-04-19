@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.checkmoney.config.exception.ApiCheckMoneyException;
+import com.app.checkmoney.config.exception.RestException;
+import com.app.checkmoney.config.security.model.JwtUser;
 import com.app.checkmoney.model.Divisa;
+import com.app.checkmoney.model.TipoDocumento;
 import com.app.checkmoney.repository.UbigeoRepository;
 import com.app.checkmoney.service.DivisaService;
 import com.app.checkmoney.service.TipoDocumentoService;
@@ -52,8 +58,19 @@ public class CatalogoController {
 	@ApiOperation(value = "Crea una Divisa", authorizations = {@Authorization(value = "apiKey") })	
 	@PostMapping(value = "/divisa")
 	public ResponseEntity<?> saveDivisa(@RequestBody Divisa divisa, HttpServletRequest request){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Integer idUser = 0;
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			JwtUser userDetails = (JwtUser) auth.getPrincipal();
+			idUser = userDetails.getId();
+
+		} else {
+			return new ResponseEntity<>(new RestException("No autorizado"), HttpStatus.UNAUTHORIZED);
+		}
+		
 		HashMap<String, Object> result = new HashMap<>();
 		divisa.setEstado(true);
+		divisa.setUserCr(idUser);
 		Divisa data = divisaService.insert(divisa);
 		
 		
@@ -160,6 +177,83 @@ public class CatalogoController {
 	@GetMapping(value = "/tipo_documento")	
 	public ResponseEntity<?> findAllTipoDocumento(HttpServletRequest request) {		
 		return new ResponseEntity<>(tipoDocumentoService.findAll(), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Crea un Tipo de Documento", authorizations = {@Authorization(value = "apiKey") })	
+	@PostMapping(value = "/tipo_documento")
+	public ResponseEntity<?> saveTipoDocumento(@RequestBody TipoDocumento tipoDocumento, HttpServletRequest request){
+		HashMap<String, Object> result = new HashMap<>();
+		tipoDocumento.setEstado(true);
+		TipoDocumento data = tipoDocumentoService.insert(tipoDocumento);
+		
+		
+		result.put("success", true);
+		result.put("message", "Se ha registrado correctamente.");
+		result.put("result", data);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+@ApiOperation(value = "Obtiene datos de un Tipo de Documento", authorizations = { @Authorization(value = "apiKey")})
+	@GetMapping(value = "/tipo_documento/{idTipoDocumento}")
+	public ResponseEntity<?> findTipoDocumento(@PathVariable(value = "idTipoDocumento") Integer idTipoDocumento, HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap<>();
+		TipoDocumento data = tipoDocumentoService.findById(idTipoDocumento);
+		if(data == null) {
+			result.put("success", false);
+			result.put("message", "No existe el Tipo de Documento con código: " + idTipoDocumento);
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND); 
+		}
+		
+		result.put("success", true);
+		result.put("message", "Se ha encontrado el registro.");
+		result.put("result", data);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Actualiza un Tipo de Documento", authorizations = { @Authorization(value = "apiKey")})
+	@PutMapping(value = "/tipo_documento")
+	public ResponseEntity<?> updateTipoDocumento (@RequestBody TipoDocumento tipoDocumento, HttpServletRequest request) {
+		HashMap<String, Object> result = new HashMap<>();
+		TipoDocumento data = tipoDocumentoService.findById(tipoDocumento.getIdTipoDocumento());
+		if(data == null) {
+			result.put("success", false);
+			result.put("message", "No existe el Tipo de Documento con código: " + tipoDocumento.getIdTipoDocumento());
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND); 
+		}
+		try {
+			tipoDocumento.setEstado(true);
+			tipoDocumentoService.update(tipoDocumento);
+			result.put("success", true);
+			result.put("message", "Se ha actualizado los datos del registro.");
+			result.put("result", tipoDocumento);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+			
+		} catch (Exception ex) {
+			return new ResponseEntity<>(new ApiCheckMoneyException(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}			
+	}
+	
+	@ApiOperation(value = "Elimina un Tipo de Documento", authorizations = { @Authorization(value = "apiKey")})
+	@DeleteMapping(value = "/tipo_documento/{idTipoDocumento}")
+	public ResponseEntity<?> deleteTipoDocumento (@PathVariable(value = "idTipoDocumento") Integer idTipoDocumento, HttpServletRequest request){
+		HashMap<String, Object> result = new HashMap<>();
+		TipoDocumento data = tipoDocumentoService.findById(idTipoDocumento);
+		if(data == null) {
+			result.put("success", false);
+			result.put("message", "No existe el Tipo de Documento con código: " + idTipoDocumento);
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND); 
+		}
+		try {
+			data.setEstado(false);
+			tipoDocumentoService.delete(data);
+			result.put("success", true);
+			result.put("message", "Se ha eliminado los datos del registro.");
+			result.put("result", data);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+			
+		} catch (Exception ex) {
+			return new ResponseEntity<>(new ApiCheckMoneyException(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
 	}
 	/* Fin Servicios para la Entidad Tipo de Documento */
 	
