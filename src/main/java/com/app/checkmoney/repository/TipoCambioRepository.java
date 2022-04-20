@@ -32,6 +32,9 @@ public interface TipoCambioRepository extends JpaRepository<TipoCambio, Integer>
 	public List<TipoCambio> findAll(String query, Sort sort);
 	
 	@Query("select t1 from TipoCambio t1 Where t1.estado = true and t1.vigente=true and date(t1.fecha) = date(:fecha) and t1.divisaOrigen.idDivisa=:idDivisaOrigen and t1.divisaDestino.idDivisa=:idDivisaDestino")
-	public List<TipoCambio> findVigentes(Date fecha, Integer idDivisaOrigen, Integer idDivisaDestino);
+	public List<TipoCambio> findVigentes(String fecha, Integer idDivisaOrigen, Integer idDivisaDestino);
+	
+	@Query("select t1 from TipoCambio t1 Where t1.estado = true and date(t1.fecha) = date(:fecha) and t1.divisaOrigen.idDivisa=:idDivisaOrigen and t1.divisaDestino.idDivisa=:idDivisaDestino")
+	public List<TipoCambio> findTCByFecha(String fecha, Integer idDivisaOrigen, Integer idDivisaDestino);
 
 }

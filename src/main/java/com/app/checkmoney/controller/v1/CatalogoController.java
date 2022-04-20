@@ -70,7 +70,12 @@ public class CatalogoController {
 		
 		HashMap<String, Object> result = new HashMap<>();
 		divisa.setEstado(true);
+		divisa.setCrAt(new java.sql.Timestamp(System.currentTimeMillis()));
 		divisa.setUserCr(idUser);
+		divisa.setUpAt(null);
+		divisa.setDtAt(null);
+		divisa.setUserUp(null);
+		divisa.setUserDt(null);
 		Divisa data = divisaService.insert(divisa);
 		
 		
@@ -128,6 +133,16 @@ public class CatalogoController {
 	@ApiOperation(value = "Actualiza una Divisa", authorizations = { @Authorization(value = "apiKey")})
 	@PutMapping(value = "/divisa")
 	public ResponseEntity<?> updateDivisa (@RequestBody Divisa divisa, HttpServletRequest request) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Integer idUser = 0;
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			JwtUser userDetails = (JwtUser) auth.getPrincipal();
+			idUser = userDetails.getId();
+
+		} else {
+			return new ResponseEntity<>(new RestException("No autorizado"), HttpStatus.UNAUTHORIZED);
+		}
+		
 		HashMap<String, Object> result = new HashMap<>();
 		Divisa data = divisaService.findById(divisa.getIdDivisa());
 		if(data == null) {
@@ -137,6 +152,12 @@ public class CatalogoController {
 		}
 		try {
 			divisa.setEstado(true);
+			divisa.setCrAt(data.getCrAt());
+			divisa.setUserCr(data.getUserCr());
+			divisa.setUpAt(new java.sql.Timestamp(System.currentTimeMillis()));
+			divisa.setUserUp(idUser);
+			divisa.setDtAt(data.getDtAt());
+			divisa.setUserDt(data.getUserDt());
 			divisaService.update(divisa);
 			result.put("success", true);
 			result.put("message", "Se ha actualizado los datos del registro.");
@@ -151,6 +172,16 @@ public class CatalogoController {
 	@ApiOperation(value = "Elimina una Divisa", authorizations = { @Authorization(value = "apiKey")})
 	@DeleteMapping(value = "/divisa/{idDivisa}")
 	public ResponseEntity<?> deleteDivisa (@PathVariable(value = "idDivisa") Integer idDivisa, HttpServletRequest request){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Integer idUser = 0;
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			JwtUser userDetails = (JwtUser) auth.getPrincipal();
+			idUser = userDetails.getId();
+
+		} else {
+			return new ResponseEntity<>(new RestException("No autorizado"), HttpStatus.UNAUTHORIZED);
+		}
+		
 		HashMap<String, Object> result = new HashMap<>();
 		Divisa data = divisaService.findById(idDivisa);
 		if(data == null) {
@@ -160,6 +191,8 @@ public class CatalogoController {
 		}
 		try {
 			data.setEstado(false);
+			data.setDtAt(new java.sql.Timestamp(System.currentTimeMillis()));
+			data.setUserDt(idUser);
 			divisaService.delete(data);
 			result.put("success", true);
 			result.put("message", "Se ha eliminado los datos del registro.");

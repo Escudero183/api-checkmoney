@@ -90,8 +90,12 @@ public class TipoCambioService {
 		return result;
 	}
 	
-	public List<TipoCambio> findVigentes(Date fecha, Integer idDivisaOrigen, Integer idDivisaDestino) {
+	public List<TipoCambio> findVigentes(String fecha, Integer idDivisaOrigen, Integer idDivisaDestino) {
 		return (List<TipoCambio>) tipoCambioRepository.findVigentes(fecha, idDivisaOrigen, idDivisaDestino);
+	}
+	
+	public List<TipoCambio> findTCByFecha(String fecha, Integer idDivisaOrigen, Integer idDivisaDestino) {
+		return (List<TipoCambio>) tipoCambioRepository.findTCByFecha(fecha, idDivisaOrigen, idDivisaDestino);
 	}
 
 }

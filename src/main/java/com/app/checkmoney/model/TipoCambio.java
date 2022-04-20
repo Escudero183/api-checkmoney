@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Data;
 
@@ -32,6 +34,7 @@ public class TipoCambio {
 	@GeneratedValue(generator = "tipo_cambio_generator_seq", strategy = GenerationType.SEQUENCE)
 	private Integer idTipoCambio;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 	
 	private String descripcion;
